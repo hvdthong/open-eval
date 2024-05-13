@@ -38,8 +38,21 @@ def f_2258(df, category_col, sales_col):
         logging.error("DataFrame contains duplicate entries in the category column.")
         raise ValueError("DataFrame contains duplicate entries in the category column.")
 
-    ax = df.set_index(category_col)[sales_col].plot(kind='bar', title="Sales Report by Category")
-    plt.ylabel('Sales')
+    # ax = df.set_index(category_col)[sales_col].plot(kind='bar', title="Sales Report by Category")
+
+    # Extract categories and sales as lists
+    categories = df['Category'].tolist()
+    sales = df['Sales'].tolist()
+
+    # Create a bar plot
+    fig, ax = plt.subplots()
+    ax.bar(categories, sales)
+
+    # plt.ylabel('Sales')
+    # Add title and labels
+    ax.set_title("Sales Report by Category")
+    ax.set_xlabel("Category")
+    ax.set_ylabel("Sales")
     plt.show()
     return ax
 
