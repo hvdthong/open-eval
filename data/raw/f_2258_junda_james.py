@@ -28,7 +28,7 @@ def f_2258(df, category_col, sales_col):
 
     Example:
     >>> df_example = pd.DataFrame({'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'], 'Sales': [1000, 1500, 1200, 800, 1100]})
-    >>> f_2258(df_example, 'Category', 'Sales')
+    >>> ax = f_2258(df_example, 'Category', 'Sales')
     """
     if df.empty or not df[sales_col].dtype.kind in 'biufc':
         logging.error("DataFrame is empty, lacks sales data, or sales data is not numeric.")
@@ -63,6 +63,7 @@ class TestCases(unittest.TestCase):
         })
         df_single = df_setup.head(1)  # Only one category
         ax_tmp = f_2258(df_single, 'Category', 'Sales')
+        print(ax_tmp.patches)
         self.assertEqual(len(ax_tmp.patches), 1)  # 1 bar for 1 category
 
     def test_no_data(self):
