@@ -54,6 +54,12 @@ class TestCases(unittest.TestCase):
             'Sales': [1000, 1500, 1200, 800, 1100]
         })
 
+        df_ = pd.DataFrame({
+            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
+            'Sales': [1000, 1500, 1200, 800, 1100]
+        })
+        self.duplicate = pd.concat([df_, df_])
+
     def test_sales_data_input(self):
         ax = f_2258(self.df, 'Category', 'Sales')
         self.assertEqual(len(ax.patches), 5)  # 5 bars for 5 categories
@@ -73,9 +79,8 @@ class TestCases(unittest.TestCase):
             f_2258(self.df, 'NonexistentCategory', 'Sales')
 
     def test_duplicate_category_input(self):
-        df_duplicate = pd.concat([self.df, self.df]).reset_index(drop=True)
         with self.assertRaises(ValueError):
-            f_2258(df_duplicate, 'Category', 'Sales')
+            f_2258(self.df_duplicate, 'Category', 'Sales')
 
 def run_tests():
     """Run all tests for this function."""
