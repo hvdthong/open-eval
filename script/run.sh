@@ -1,5 +1,5 @@
 # 
-NAMES=(indraneil chien jenny wenhao niklas hanhu ratna simon ming zhihan james xiaoheng armel)
+NAMES=(james)
 rm -rf data/clean/*
 mkdir -p data/clean
 for name in "${NAMES[@]}"; do
