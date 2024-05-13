@@ -48,7 +48,6 @@ def f_2258(df, category_col, sales_col):
     fig, ax = plt.subplots()
     ax.bar(categories, sales)
 
-    # plt.ylabel('Sales')
     # Add title and labels
     ax.set_title("Sales Report by Category")
     ax.set_xlabel("Category")
@@ -61,23 +60,21 @@ import unittest
 import pandas as pd
 
 class TestCases(unittest.TestCase):
-    def test_sales_data_input(self):
-        df_setup = pd.DataFrame({
+    def setUp(self):
+        self.df = pd.DataFrame({
             'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
             'Sales': [1000, 1500, 1200, 800, 1100]
         })
-        ax_tmp = f_2258(df_setup, 'Category', 'Sales')
-        self.assertEqual(len(ax_tmp.patches), 5)  # 5 bars for 5 categories
+
+    def test_sales_data_input(self):
+        ax = f_2258(self.df, 'Category', 'Sales')
+        self.assertEqual(len(ax.patches), 5)  # 5 bars for 5 categories
 
     def test_single_category_input(self):
-        df_setup = pd.DataFrame({
-            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
-            'Sales': [1000, 1500, 1200, 800, 1100]
-        })
-        df_single = df_setup.head(1)  # Only one category
-        ax_tmp = f_2258(df_single, 'Category', 'Sales')
-        print(ax_tmp.patches)
-        self.assertEqual(len(ax_tmp.patches), 1)  # 1 bar for 1 category
+        df_single = self.df.head(1)  # Only one category
+        ax = f_2258(df_single, 'Category', 'Sales')
+        print(ax.patches)
+        self.assertEqual(len(ax.patches), 1)  # 1 bar for 1 category
 
     def test_no_data(self):
         df_empty = pd.DataFrame(columns=['Category', 'Sales'])  # Empty DataFrame
@@ -85,20 +82,11 @@ class TestCases(unittest.TestCase):
             ax = f_2258(df_empty, 'Category', 'Sales')
 
     def test_invalid_columns(self):
-        df_setup = pd.DataFrame({
-            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
-            'Sales': [1000, 1500, 1200, 800, 1100]
-        })
         with self.assertRaises(KeyError):
-            f_2258(df_setup, 'NonexistentCategory', 'Sales')
+            f_2258(self.df, 'NonexistentCategory', 'Sales')
 
     def test_duplicate_category_input(self):
-        df_setup = pd.DataFrame({
-            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
-            'Sales': [1000, 1500, 1200, 800, 1100]
-        })
-
-        df_duplicate = pd.concat([df_setup, df_setup]).reset_index(drop=True)
+        df_duplicate = pd.concat([self.df, self.df]).reset_index(drop=True)
         with self.assertRaises(ValueError):
             f_2258(df_duplicate, 'Category', 'Sales')
 
