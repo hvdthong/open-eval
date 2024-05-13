@@ -28,7 +28,7 @@ def f_2258(df, category_col, sales_col):
 
     Example:
     >>> df_example = pd.DataFrame({'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'], 'Sales': [1000, 1500, 1200, 800, 1100]})
-    >>> ax = f_2258(df_example, 'Category', 'Sales')
+    >>> f_2258(df_example, 'Category', 'Sales')
     """
     if df.empty or not df[sales_col].dtype.kind in 'biufc':
         logging.error("DataFrame is empty, lacks sales data, or sales data is not numeric.")
@@ -48,25 +48,20 @@ import unittest
 import pandas as pd
 
 class TestCases(unittest.TestCase):
-    def setUp(self):
-        self.df_setup = pd.DataFrame({
-            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
-            'Sales': [1000, 1500, 1200, 800, 1100]
-        })
-
-        df_ = pd.DataFrame({
-            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
-            'Sales': [1000, 1500, 1200, 800, 1100]
-        })
-
-        self.df_duplicate = pd.concat([df_, df_]).reset_index(drop=True)
-
     def test_sales_data_input(self):
-        ax_tmp = f_2258(self.df_setup, 'Category', 'Sales')
+        df_setup = pd.DataFrame({
+            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
+            'Sales': [1000, 1500, 1200, 800, 1100]
+        })
+        ax_tmp = f_2258(df_setup, 'Category', 'Sales')
         self.assertEqual(len(ax_tmp.patches), 5)  # 5 bars for 5 categories
 
     def test_single_category_input(self):
-        df_single = self.df_setup.head(1)  # Only one category
+        df_setup = pd.DataFrame({
+            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
+            'Sales': [1000, 1500, 1200, 800, 1100]
+        })
+        df_single = df_setup.head(1)  # Only one category
         ax_tmp = f_2258(df_single, 'Category', 'Sales')
         self.assertEqual(len(ax_tmp.patches), 1)  # 1 bar for 1 category
 
@@ -76,12 +71,22 @@ class TestCases(unittest.TestCase):
             ax = f_2258(df_empty, 'Category', 'Sales')
 
     def test_invalid_columns(self):
+        df_setup = pd.DataFrame({
+            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
+            'Sales': [1000, 1500, 1200, 800, 1100]
+        })
         with self.assertRaises(KeyError):
-            f_2258(self.df_setup, 'NonexistentCategory', 'Sales')
+            f_2258(df_setup, 'NonexistentCategory', 'Sales')
 
     def test_duplicate_category_input(self):
+        df_setup = pd.DataFrame({
+            'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
+            'Sales': [1000, 1500, 1200, 800, 1100]
+        })
+
+        df_duplicate = pd.concat([df_setup, df_setup]).reset_index(drop=True)
         with self.assertRaises(ValueError):
-            f_2258(self.df_duplicate, 'Category', 'Sales')
+            f_2258(df_duplicate, 'Category', 'Sales')
 
 def run_tests():
     """Run all tests for this function."""
