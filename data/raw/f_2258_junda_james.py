@@ -49,7 +49,7 @@ import pandas as pd
 
 class TestCases(unittest.TestCase):
     def setUp(self):
-        self.df = pd.DataFrame({
+        self.df_setup = pd.DataFrame({
             'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
             'Sales': [1000, 1500, 1200, 800, 1100]
         })
@@ -58,16 +58,17 @@ class TestCases(unittest.TestCase):
             'Category': ['Electronics', 'Clothing', 'Home', 'Books', 'Sports'],
             'Sales': [1000, 1500, 1200, 800, 1100]
         })
-        self.duplicate = pd.concat([df_, df_])
+
+        self.df_duplicate = pd.concat([df_, df_]).reset_index(drop=True)
 
     def test_sales_data_input(self):
-        ax = f_2258(self.df, 'Category', 'Sales')
-        self.assertEqual(len(ax.patches), 5)  # 5 bars for 5 categories
+        ax_tmp = f_2258(self.df_setup, 'Category', 'Sales')
+        self.assertEqual(len(ax_tmp.patches), 5)  # 5 bars for 5 categories
 
     def test_single_category_input(self):
-        df_single = self.df.head(1)  # Only one category
-        ax = f_2258(df_single, 'Category', 'Sales')
-        self.assertEqual(len(ax.patches), 1)  # 1 bar for 1 category
+        df_single = self.df_setup.head(1)  # Only one category
+        ax_tmp = f_2258(df_single, 'Category', 'Sales')
+        self.assertEqual(len(ax_tmp.patches), 1)  # 1 bar for 1 category
 
     def test_no_data(self):
         df_empty = pd.DataFrame(columns=['Category', 'Sales'])  # Empty DataFrame
@@ -76,7 +77,7 @@ class TestCases(unittest.TestCase):
 
     def test_invalid_columns(self):
         with self.assertRaises(KeyError):
-            f_2258(self.df, 'NonexistentCategory', 'Sales')
+            f_2258(self.df_setup, 'NonexistentCategory', 'Sales')
 
     def test_duplicate_category_input(self):
         with self.assertRaises(ValueError):
