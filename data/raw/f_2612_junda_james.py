@@ -117,8 +117,9 @@ class TestCases(unittest.TestCase):
         expect = [{'location': [2.0, 4.0], 'radius': 20}, {'location': [3.0, 5.0], 'radius': 30}, {'location': [1.0, 3.0], 'radius': 10}, {'location': [2.0, 4.0], 'radius': 20}, {'location': [0.0, 2.0], 'radius': 'Radius not set'}, {'location': [1.0, 3.0], 'radius': 10}]
         
         self.assertIsInstance(map_obj, folium.Map)
-        # self.assertEqual(expect, circle_markers_info)
-        assert(set(expect) & set(circle_markers_info))
+        sorted_list1 = sorted([sorted(d.items()) for d in expect])
+        sorted_list2 = sorted([sorted(d.items()) for d in circle_markers_info])
+        self.assertEqual(sorted_list1, sorted_list2)
 
     def test_invalid_directory(self):
         with self.assertRaises(FileNotFoundError):
