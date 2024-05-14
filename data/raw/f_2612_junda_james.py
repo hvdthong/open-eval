@@ -118,7 +118,7 @@ class TestCases(unittest.TestCase):
         
         self.assertIsInstance(map_obj, folium.Map)
         # self.assertEqual(expect, circle_markers_info)
-        self.assert(set(expect) & set(circle_markers_info))
+        assert(set(expect) & set(circle_markers_info))
 
     def test_invalid_directory(self):
         with self.assertRaises(FileNotFoundError):
