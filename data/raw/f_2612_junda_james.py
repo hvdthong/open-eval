@@ -64,9 +64,12 @@ def f_2612(dirname, outfile, columns=['Latitude', 'Longitude', 'Value']):
 import unittest
 import tempfile
 import shutil
+import os 
 
 def create_dummy_csv_files():
-    temp_dir = tempfile.mkdtemp()
+    # temp_dir = tempfile.mkdtemp()
+    temp_dir = './data_tmp'
+    os.makedirs(temp_dir, exist_ok=True)
     for i in range(3):
         data = {'Latitude': [i, i+1], 'Longitude': [i+2, i+3], 'Value': [i*10, (i+1)*10]}
         df = pd.DataFrame(data)
@@ -76,13 +79,17 @@ def create_dummy_csv_files():
 class TestCases(unittest.TestCase):
     def setUp(self):
         # Create a temporary directory with dummy CSV files
-        self.temp_dir = tempfile.mkdtemp()
+        # self.temp_dir = tempfile.mkdtemp()
+        self.temp_dir = './data_tmp'
+        os.makedirs(self.temp_dir, exist_ok=True)
         for i in range(3):
             data = {'Latitude': [i, i+1], 'Longitude': [i+2, i+3], 'Value': [i*10, (i+1)*10]}
             df = pd.DataFrame(data)
             df.to_csv(os.path.join(self.temp_dir, f'dummy{i}.csv'), index=False, header=False)
             
-        self.temp_dir1 = tempfile.mkdtemp()
+        # self.temp_dir1 = tempfile.mkdtemp()
+        self.temp_dir1 = './data_tmp_ver1'
+        os.makedirs(self.temp_dir1, exist_ok=True)
         self.custom_columns = ['Lat', 'Lon', 'Val']
         data_custom = {'Lat': [2, 3], 'Lon': [4, 5], 'Val': [20, 30]}
         df_custom = pd.DataFrame(data_custom)
