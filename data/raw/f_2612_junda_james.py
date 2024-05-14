@@ -115,6 +115,7 @@ class TestCases(unittest.TestCase):
         map_obj = f_2612(self.temp_dir, 'test_map.html')
         circle_markers_info = extract_circle_markers_info(map_obj)
         expect = [{'location': [2.0, 4.0], 'radius': 20}, {'location': [3.0, 5.0], 'radius': 30}, {'location': [1.0, 3.0], 'radius': 10}, {'location': [2.0, 4.0], 'radius': 20}, {'location': [0.0, 2.0], 'radius': 'Radius not set'}, {'location': [1.0, 3.0], 'radius': 10}]
+        print(circle_markers_info)
         self.assertIsInstance(map_obj, folium.Map)
         self.assertEqual(expect, circle_markers_info)
 
